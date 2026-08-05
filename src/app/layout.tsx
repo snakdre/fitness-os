@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { Providers } from "@/components/providers"
+import { CapacitorInit } from "@/components/capacitor-init"
 import { auth } from "@/lib/auth"
 
 const inter = Inter({
@@ -50,6 +51,17 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "VYROX",
+  },
+  formatDetection: {
+    telephone: false,
+    email: false,
+    address: false,
+  },
+  manifest: "/manifest.json",
 }
 
 export const viewport: Viewport = {
@@ -59,6 +71,8 @@ export const viewport: Viewport = {
   ],
   width: "device-width",
   initialScale: 1,
+  minimumScale: 1,
+  viewportFit: "cover",
 }
 
 export default async function RootLayout({
@@ -76,6 +90,7 @@ export default async function RootLayout({
     >
       <body className="min-h-full flex flex-col antialiased bg-background text-foreground">
         <Providers session={session}>
+          <CapacitorInit />
           {children}
         </Providers>
       </body>

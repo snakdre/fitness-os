@@ -5,10 +5,11 @@ import { SessionProvider } from "next-auth/react"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import type { Session } from "next-auth"
+import { useTheme } from "next-themes"
+import { useEffect } from "react"
 import posthog from "posthog-js"
 import { PostHogProvider } from "posthog-js/react"
 
-// Initialize PostHog if key is available
 if (
   typeof window !== "undefined" &&
   process.env.NEXT_PUBLIC_POSTHOG_KEY
@@ -17,7 +18,7 @@ if (
     api_host:
       process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://us.i.posthog.com",
     person_profiles: "identified_only",
-    capture_pageview: false, // handled manually with Next.js router
+    capture_pageview: false,
   })
 }
 
@@ -26,7 +27,27 @@ interface ProvidersProps {
   session?: Session | null
 }
 
-export function Providers({ children, session }: ProvidersProps) {
+function StatusBarSync() {
+  const { resolvedTheme } = useTheme()
+
+  useEffect(() => {
+    async function sync() {
+      try {
+        const { Capacitor } = await import("@capacitor/core")
+        if (!Capacitor.isNativePlatform()) return
+        const { setStatusBarStyle } = await import("@/lib/capacitor/status-bar")
+        await setStatusBarStyle(resolvedTheme === "dark")
+      } catch {
+        // Not running in Capacitor
+      }
+    }
+    sync()
+  }, [resolvedTheme])
+
+  return null
+}
+
+function AppProviders({ children, session }: ProvidersProps) {
   const content = (
     <SessionProvider session={session}>
       <ThemeProvider
@@ -35,6 +56,7 @@ export function Providers({ children, session }: ProvidersProps) {
         storageKey="vyrox-theme"
         disableTransitionOnChange
       >
+        <StatusBarSync />
         {children}
         <Toaster />
       </ThemeProvider>
@@ -47,3 +69,5 @@ export function Providers({ children, session }: ProvidersProps) {
 
   return content
 }
+
+export { AppProviders as Providers }

@@ -23,7 +23,7 @@ export default async function DashboardLayout({
       <div className="flex flex-col flex-1 overflow-hidden">
         <Header user={session.user} />
 
-        <main className="flex-1 overflow-y-auto pb-20 md:pb-0">
+        <main className="flex-1 overflow-y-auto pb-nav-safe">
           <Suspense
             fallback={
               <div className="flex items-center justify-center h-full">

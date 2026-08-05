@@ -1,0 +1,35 @@
+{
+  "name": "VYROX — Your Fitness OS",
+  "short_name": "VYROX",
+  "description": "AI-powered fitness operating system for tracking workouts, nutrition, and body metrics",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#f97316",
+  "categories": ["health", "fitness"],
+  "icons": [
+    {
+      "src": "/strong-man.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Log Workout",
+      "short_name": "Workout",
+      "url": "/workouts/new",
+      "icons": [{ "src": "/strong-man.png", "sizes": "any" }]
+    },
+    {
+      "name": "Log Nutrition",
+      "short_name": "Nutrition",
+      "url": "/nutrition/log",
+      "icons": [{ "src": "/strong-man.png", "sizes": "any" }]
+    }
+  ],
+  "prefer_related_applications": false
+}

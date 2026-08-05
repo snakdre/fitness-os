@@ -19,7 +19,13 @@ export function ThemeToggle() {
           name="theme"
           value="light"
           checked={theme === "light"}
-          onChange={() => setTheme("light")}
+          onChange={async () => {
+              setTheme("light")
+              try {
+                const { impactLight } = await import("@/lib/capacitor/haptics")
+                await impactLight()
+              } catch {}
+            }}
           className="sr-only"
         />
         <span
@@ -39,7 +45,13 @@ export function ThemeToggle() {
           name="theme"
           value="dark"
           checked={theme === "dark"}
-          onChange={() => setTheme("dark")}
+          onChange={async () => {
+              setTheme("dark")
+              try {
+                const { impactLight } = await import("@/lib/capacitor/haptics")
+                await impactLight()
+              } catch {}
+            }}
           className="sr-only"
         />
         <span
